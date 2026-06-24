@@ -1,12 +1,8 @@
 [project]
-name = "lingo"
+name = "LINGO"
 version = "0.1.0"
 description = "LINGO Website"
 readme = "README.rst"
 authors = [
     { name = "Ziyang Liu", email = "Ziyang.Liu@childrens.harvard.edu" }
-]
-requires-python = ">=3.12"
-dependencies = [
-  "numpy<2.2",
 ]

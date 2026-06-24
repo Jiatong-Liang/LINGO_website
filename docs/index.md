@@ -1,4 +1,4 @@
-# Welcome to demestats' documentation
+# Welcome to LINGO documentation
 
 [`click here`](https://popsim-consortium.github.io/demes-docs/latest/introduction.html)
 
