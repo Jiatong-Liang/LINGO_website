@@ -1,0 +1,491 @@
+# LINGO
+
+[`click here`](https://popsim-consortium.github.io/demes-docs/latest/introduction.html)
+
+<p align="center">
+  <strong>A Knowledge Graph-Grounded Foundation Model for Single-Cell Lineage Inference</strong>
+</p>
+
+<p align="center">
+  Multi-species pretraining • biological knowledge graph • lineage-aware transfer learning
+</p>
+
+---
+
+## 🧬 Overview
+
+LINGO is a knowledge graph-grounded foundation model for **single-cell lineage inference**.  
+It is designed to learn transferable gene and cell representations from large-scale single-cell lineage tracing data, while explicitly incorporating structured biological priors.
+
+In the current manuscript, LINGO is described as:
+
+- a **two-stage framework** with graph-based pretraining and task-specific finetuning
+- a model pretrained on **18 tissue types** across **mouse, human, and zebrafish**
+- a framework evaluated on four held-out systems:
+  - **mouse hematopoiesis** from Weinreb 2020
+  - **mouse tumor evolution** from Yang 2022
+  - **human cell line clone plasticity** from Hurley 2020
+  - **zebrafish heart lineage origin prediction** from Hu 2022
+
+LINGO supports three core downstream tasks discussed in the manuscript:
+
+- **cell linkage prediction**
+- **lineage origin prediction**
+- **clonal plasticity prediction**
+
+## 🚀 Quick Start
+
+To reproduce the downstream benchmark experiments in the manuscript:
+
+1. Create the Conda environment from `environment.yaml`
+2. Download **LibKG** from Zenodo
+3. Download the four downstream raw `.h5ad` benchmark files
+4. Use the pretrained embeddings already provided in `finetune_codes/embeddings`
+5. Run the corresponding scripts in `finetune_codes/`
+
+Main resource links:
+
+- [LibKG on Zenodo](https://zenodo.org/records/20434093)
+- [Downstream raw `.h5ad` files on Zenodo](https://zenodo.org/records/12176634)
+- [Pretrained embeddings in this repository](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings)
+
+## ✨ Key Components
+
+The codebase follows the same conceptual structure as the manuscript.
+
+- **LibKG**
+  a lineage-informed biological knowledge graph integrating regulatory, co-expression, pathway, and differentiation priors
+- **PG-Aug**
+  a path-guided graph augmentor that samples lineage-relevant subgraphs during pretraining
+- **GR-GAT**
+  a gene-centric relational graph attention encoder
+- **Hi-GCL**
+  a hierarchical graph contrastive learning objective
+
+---
+
+## 📁 Repository Structure
+
+```text
+LINGO-main/
+├── environment.yaml
+├── merged_by_species/
+├── pretrain_codes/
+└── finetune_codes/
+```
+
+Main folders:
+
+- `pretrain_codes/`
+  pretraining pipeline, knowledge graph construction, and feature preparation
+- `finetune_codes/`
+  downstream lineage tasks on held-out benchmark systems
+- `merged_by_species/`
+  merged multi-species `.h5ad` files used for pretraining
+
+---
+
+## ⚙️ Environment Setup
+
+Create the Conda environment:
+
+```bash
+conda env create -f environment.yaml
+conda activate lingo-pretrain
+```
+
+Quick sanity check:
+
+```bash
+python -c "import torch, scanpy, torch_geometric; print('Environment is ready')"
+```
+
+> [!NOTE]
+> The provided `environment.yaml` is intended to reproduce the LINGO pipeline. If your machine uses a different CUDA version, you may need to adjust the PyTorch installation accordingly.
+
+---
+
+## 📦 Data Download
+
+The released **LibKG** dataset is available on Zenodo:
+
+[LibKG on Zenodo](https://zenodo.org/records/20434093)
+
+Current Zenodo content:
+
+- `LibKG.zip`
+
+This Zenodo release contains the **species-specific LibKG resources** used by LINGO, including graph node tables, edge tables, and metadata for:
+
+- **Mus musculus**
+- **Homo sapiens**
+- **Danio rerio**
+
+The raw `.h5ad` files used in the downstream finetuning benchmarks are available here:
+
+[Downstream raw `.h5ad` files on Zenodo](https://zenodo.org/records/12176634)
+
+The pretrained embedding files used by finetuning are already provided with this repository:
+
+[finetune_codes/embeddings](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings)
+
+> [!IMPORTANT]
+> The LibKG Zenodo record contains the knowledge graph resources only. The finetuning raw `.h5ad` files are provided separately at the Zenodo link above. The pretrained embedding files used by finetuning are already available in this GitHub repository.
+
+After downloading, unpack the archive and place the files according to the layout below.
+
+## 🗂️ Expected Data Layout
+
+### Pretraining data for rerunning the full pretraining pipeline
+
+The pretraining pipeline expects three merged `.h5ad` files under `merged_by_species/`:
+
+```text
+merged_by_species/
+├── merged_Mus_musculus.h5ad
+├── merged_Homo_sapiens.h5ad
+└── merged_Danio_rerio.h5ad
+```
+
+These names match the default paths in:
+
+- `pretrain_codes/config.py`
+- `finetune_codes/config.py`
+
+These merged `.h5ad` files are used when rerunning the multi-species pretraining pipeline.
+
+If you only want to run the downstream finetuning benchmarks using the provided LibKG resources and pretrained embeddings, you do **not** need these three merged species files.
+
+### Finetuning benchmark data
+
+The downstream tasks use task-specific raw `.h5ad` files. A recommended layout is:
+
+```text
+data/
+├── Weinreb_2020_Science.h5ad
+├── Yang_2022_Cell.h5ad
+├── Hu_2022_NatureGenetics.h5ad
+└── Hurley_2020_CellStemCell.h5ad
+```
+
+You do not have to use this exact directory. The finetuning scripts also support environment variables or command line paths.
+
+These task-specific raw `.h5ad` files are available at:
+
+[https://zenodo.org/records/12176634](https://zenodo.org/records/12176634)
+
+Please download the following four files:
+
+- `Hu_2022_NatureGenetics.h5ad`
+- `Hurley_2020_CellStemCell.h5ad`
+- `Weinreb_2020_Science.h5ad`
+- `Yang_2022_Cell.h5ad`
+
+### Optional: use prebuilt LibKG from Zenodo
+
+If you download `LibKG.zip` from Zenodo instead of rebuilding the graph locally, place the species-specific LibKG files under:
+
+```text
+saved_results_Mus_musculus/knowledge_graph/
+saved_results_Homo_sapiens/knowledge_graph/
+saved_results_Danio_rerio/knowledge_graph/
+```
+
+The main expected LibKG files are:
+
+```text
+knowledge_graph_nodes.csv.gz
+knowledge_graph_edges.csv.gz
+knowledge_graph_metadata.json
+```
+
+If these files are already in place, you can usually skip:
+
+- `pretrain_codes/1_download_knowledge_bases.py`
+- `pretrain_codes/2_build_knowledge_graph.py`
+
+You would still need the merged species `.h5ad` files if you want to continue with:
+
+- `pretrain_codes/0_data_inspection.py`
+- `pretrain_codes/3_precompute_features.py`
+- `pretrain_codes/5_pretrain.py`
+
+---
+
+## 🧪 Pretraining
+
+LINGO can be used in two ways:
+
+- **Benchmark reproduction**
+  use the released LibKG resources, the released downstream raw `.h5ad` files, and the provided pretrained embeddings to run the finetuning benchmarks directly
+- **Pipeline rerun**
+  rerun the full multi-species pretraining pipeline and regenerate intermediate resources from the assembled pretraining corpus
+
+For most users, the first route is the quickest way to reproduce the held-out downstream experiments reported in the manuscript.
+
+Run all commands from the repository root.
+
+### Step 1. Inspect and clean the merged data
+
+```bash
+python pretrain_codes/0_data_inspection.py
+```
+
+This step:
+
+- filters problematic datasets
+- standardizes cell type labels
+- validates differentiation trees
+- writes cleaned outputs used by later stages
+
+### Step 2. Download external knowledge bases
+
+```bash
+python pretrain_codes/1_download_knowledge_bases.py
+```
+
+This step downloads the external resources used to build LibKG:
+
+- DoRothEA regulatory relations
+- STRING protein interactions
+- KEGG pathways
+
+### Step 3. Build the biological knowledge graph
+
+```bash
+python pretrain_codes/2_build_knowledge_graph.py
+```
+
+This step builds species-specific lineage-informed biological knowledge graphs.
+
+### Step 4. Precompute graph and gene features
+
+```bash
+python pretrain_codes/3_precompute_features.py
+```
+
+This step prepares:
+
+- gene features
+- path subgraphs
+- graph inputs used during contrastive pretraining
+
+### Step 5. Run LINGO pretraining
+
+```bash
+python pretrain_codes/5_pretrain.py
+```
+
+## 📌 Main Pretraining Outputs
+
+Important outputs include:
+
+```text
+saved_results_<species>/models/pretrained_gnn.pt
+saved_results_<species>/models/best_pretrained_gnn.pt
+saved_results_<species>/embeddings/gene_embedding1_matrix.pt
+saved_results_<species>/embeddings/kg_gene_embedding_matrix.pt
+saved_results_<species>/embeddings/cell_embedding1_matrix.pt
+saved_results_<species>/embeddings/cell_embedding2_matrix.pt
+saved_results_<species>/embeddings/cell_embedding_concat_matrix.pt
+```
+
+For downstream finetuning, the most important file is usually:
+
+```text
+saved_results_<species>/embeddings/kg_gene_embedding_matrix.pt
+```
+
+> [!TIP]
+> If you only care about downstream tasks, first confirm that `kg_gene_embedding_matrix.pt` was generated successfully for the species you want to use.
+
+---
+
+## 🎯 Finetuning
+
+Run all commands from the repository root.
+
+This is the recommended entry point if you want to reproduce the downstream benchmark results reported in the manuscript.
+
+For the finetuning benchmarks, the required raw `.h5ad` files are provided at:
+
+[Downstream raw `.h5ad` files on Zenodo](https://zenodo.org/records/12176634)
+
+The pretrained embeddings used by finetuning are already provided with this repository under:
+
+[finetune_codes/embeddings](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings)
+
+Most finetuning scripts first try to load:
+
+```text
+saved_results_<species>/embeddings/kg_gene_embedding_matrix.pt
+```
+
+If that file is missing, some scripts fall back to:
+
+```text
+saved_results_<species>/embeddings/gene_embedding_matrix.pt
+```
+
+### 1. Mouse hematopoiesis linkage prediction  
+Weinreb 2020
+
+Set the raw data path:
+
+```bash
+export LINEAGE_WEINREB_PATH=/absolute/path/to/Weinreb_2020_Science.h5ad
+```
+
+Run:
+
+```bash
+python finetune_codes/10_lineage_reconstruction_Weinreb_2020.py
+```
+
+This script:
+
+- activates `Mus musculus`
+- loads pretrained mouse embeddings
+- reconstructs cross-timepoint lineage relationships
+- writes stage-wise results to the mouse output directory
+
+### 2. Mouse tumor lineage reconstruction  
+Yang 2022
+
+Set the raw data path:
+
+```bash
+export LINEAGE_YANG_PATH=/absolute/path/to/Yang_2022_Cell.h5ad
+```
+
+Run:
+
+```bash
+python finetune_codes/10_lineage_reconstruction_Yang_2022.py
+```
+
+This script:
+
+- activates `Mus musculus`
+- loads pretrained mouse embeddings
+- constructs proxy clone pairs
+- runs the frozen, scratch, and finetuned settings
+
+### 3. Zebrafish heart lineage origin prediction  
+Hu 2022
+
+Set the raw data path:
+
+```bash
+export LINEAGE_HU_PATH=/absolute/path/to/Hu_2022_NatureGenetics.h5ad
+```
+
+Optional: explicitly specify the pretrained embedding file:
+
+```bash
+export LINEAGE_ZF_EMBED_PATH=/absolute/path/to/saved_results_Danio_rerio/embeddings/kg_gene_embedding_matrix.pt
+```
+
+Run:
+
+```bash
+python finetune_codes/10_fate_prediction_Hu_2022_zebrafish_ct.py
+```
+
+This script:
+
+- activates `Danio rerio`
+- loads pretrained zebrafish embeddings
+- builds cross-timepoint lineage-origin tasks
+- reports macro AUROC and macro AUPRC style outputs consistent with the manuscript
+
+### 4. Human cell line clonal plasticity prediction  
+Hurley 2020
+
+This task uses command line arguments instead of environment variables.
+
+Run:
+
+```bash
+python finetune_codes/10_clone_plasticity_Hurley_2020_CellStemCell_2stage.py \
+  --data-path /absolute/path/to/Hurley_2020_CellStemCell.h5ad \
+  --experiment stage2_pretrained
+```
+
+Useful experiment options:
+
+- `stage2_pretrained`
+- `experiment_1_zeroshot`
+- `experiment_2_fromscratch_improved`
+
+If you want to specify the pretrained embedding file manually:
+
+```bash
+python finetune_codes/10_clone_plasticity_Hurley_2020_CellStemCell_2stage.py \
+  --data-path /absolute/path/to/Hurley_2020_CellStemCell.h5ad \
+  --embedding-path /absolute/path/to/saved_results_Homo_sapiens/embeddings/kg_gene_embedding_matrix.pt \
+  --experiment stage2_pretrained
+```
+
+---
+
+## 🚀 Recommended Run Order
+
+### Option A. Reproduce the downstream benchmarks directly
+
+This path uses:
+
+- LibKG from Zenodo
+- downstream raw `.h5ad` files from Zenodo
+- pretrained embeddings already provided in `finetune_codes/embeddings`
+
+Typical workflow:
+
+```bash
+conda env create -f environment.yaml
+conda activate lingo-pretrain
+
+python finetune_codes/10_lineage_reconstruction_Weinreb_2020.py
+python finetune_codes/10_lineage_reconstruction_Yang_2022.py
+python finetune_codes/10_fate_prediction_Hu_2022_zebrafish_ct.py
+python finetune_codes/10_clone_plasticity_Hurley_2020_CellStemCell_2stage.py --data-path /absolute/path/to/Hurley_2020_CellStemCell.h5ad --experiment stage2_pretrained
+```
+
+### Option B. Rerun the full training workflow
+
+If you want to rerun the full multi-species pretraining pipeline and then finetune:
+
+```bash
+conda env create -f environment.yaml
+conda activate lingo-pretrain
+
+python pretrain_codes/0_data_inspection.py
+python pretrain_codes/1_download_knowledge_bases.py
+python pretrain_codes/2_build_knowledge_graph.py
+python pretrain_codes/3_precompute_features.py
+python pretrain_codes/5_pretrain.py
+```
+
+Then run one or more held-out downstream benchmarks as needed.
+
+---
+
+## 📚 Configuration Notes
+
+Default paths are defined in:
+
+- `pretrain_codes/config.py`
+- `finetune_codes/config.py`
+
+If your files are stored in a different location, you can:
+
+1. place them in the default locations
+2. edit the config files directly
+3. use the finetuning environment variables or command line arguments
+
+## 📖 Citation
+
+If you use this repository in your work, please cite:
+
+- the LINGO manuscript
+- the original datasets used in each downstream benchmark
