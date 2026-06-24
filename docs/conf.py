@@ -91,8 +91,8 @@ source_suffix = [".rst", ".md"]
 master_doc = "index"
 
 # General information about the project.
-project = "momi3"
-copyright = "2023, Enes Dilber and Jonathan Terhorst"
+project = "LINGO"
+copyright = "2026, Ziyang Liu"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -233,7 +233,7 @@ html_static_path = ["_static"]
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "momi3-doc"
+htmlhelp_basename = "LINGO-doc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -250,7 +250,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ("index", "user_guide.tex", "momi3 Documentation", "Enes Dilber and Jonathan Terhorst", "manual")
+    ("index", "user_guide.tex", "LINGO Documentation", "Ziyang Liu", "manual")
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

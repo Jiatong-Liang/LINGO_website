@@ -7,6 +7,9 @@ authors = [
     { name = "Ziyang Liu", email = "Ziyang.Liu@childrens.harvard.edu" }
 ]
 requires-python = ">=3.12"
+dependencies = [
+  "numpy",
+]
 
 [build-system]
 requires = ["uv_build>=0.8.4,<0.9.0"]
