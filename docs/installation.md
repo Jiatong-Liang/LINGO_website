@@ -1,4 +1,6 @@
-# 🚀 Quickstart
+# Installation/Quickstart
+
+## 🚀 Quickstart
 
 To reproduce the downstream benchmark experiments described in the manuscript:
 
@@ -9,7 +11,7 @@ To reproduce the downstream benchmark experiments described in the manuscript:
 5. Run the corresponding scripts in `finetune_codes/`. Please see the examples. 
 
 ---
-# Installation
+## Installation
 
 Start by cloning the github:
 
@@ -45,7 +47,7 @@ python -c "import torch, scanpy, torch_geometric; print('Environment is ready')"
 
 ---
 
-# 📦 Data Download
+## 📦 Data Download
 
 The released **LibKG** dataset is available on Zenodo, please download `LibKG.zip`:
 
