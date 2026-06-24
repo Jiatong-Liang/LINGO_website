@@ -38,10 +38,10 @@ To get started, please refer to [`Installation/Quickstart`](installation.md).
 
 ```{toctree}
 :hidden:
-:maxdepth: 4
+:maxdepth: 2
 
 Installation/Quickstart <installation>
-Weinreb 2020 Example<Weinreb_2020>
+Weinreb 2020 Example <Weinreb_2020>
 Yang 2022 Example <Yang_2022>
 Hu 2022 Example <Hu_2022>
 Hurley 2020 Example <Hurley_2020>
