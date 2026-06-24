@@ -1,0 +1,13 @@
+[project]
+name = "LINGO"
+version = "0.1.0"
+description = "LINGO Website"
+readme = "README.rst"
+authors = [
+    { name = "Ziyang Liu", email = "Ziyang.Liu@childrens.harvard.edu" }
+]
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["uv_build>=0.8.4,<0.9.0"]
+build-backend = "uv_build"
