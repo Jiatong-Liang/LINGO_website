@@ -34,8 +34,6 @@ LINGO supports three core downstream tasks:
 
 To get started, please refer to [`Installation/Quickstart`](installation.md).
 
-## 
-
 ```{toctree}
 :hidden:
 :maxdepth: 2
