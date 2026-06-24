@@ -28,15 +28,21 @@ LINGO is described as:
 
 LINGO supports three core downstream tasks:
 
-- **cell linkage prediction**
-- **lineage origin prediction**
-- **clonal plasticity prediction**
+- **cell linkage prediction**: Please see [Weinreb 2020 Example](Weinreb_2020.md) and [Yang 2022 Example](Yang_2022.md)
+- **lineage origin prediction**: Please see [Hu 2022 Example](Hu_2022.md)
+- **clonal plasticity prediction**: Please see [Hurley 2020 Example](Hurley_2020.md)
 
 To get started, please refer to [`Installation/Quickstart`](installation.md).
+
+## 
 
 ```{toctree}
 :hidden:
 :maxdepth: 4
 
 Installation/Quickstart <installation>
+Weinreb 2020 Example<Weinreb_2020>
+Yang 2022 Example <Yang_2022>
+Hu 2022 Example <Hu_2022>
+Hurley 2020 Example <Hurley_2020>
 ```

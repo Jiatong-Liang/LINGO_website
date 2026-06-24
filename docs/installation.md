@@ -1,3 +1,20 @@
+# 🚀 Quick Start
+
+To reproduce the downstream benchmark experiments described in the manuscript:
+
+1. Create the Conda environment from `environment.yaml`
+2. Download **LibKG** from Zenodo
+3. Download the four downstream raw `.h5ad` benchmark files
+4. Use the pretrained embeddings already provided in `finetune_codes/embeddings`
+5. Run the corresponding scripts in `finetune_codes/`. Please see the examples. 
+
+## Main resource links:
+
+- [LibKG on Zenodo](https://zenodo.org/records/20434093)
+- [Downstream raw `.h5ad` files on Zenodo](https://zenodo.org/records/12176634)
+- [Pretrained embeddings in this repository](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings)
+
+---
 # Installation
 
 Start by cloning the github:
@@ -30,6 +47,38 @@ For a sanity check:
 python -c "import torch, scanpy, torch_geometric; print('Environment is ready')"
 ```
 
-> [!NOTE]
-> The provided `environment.yaml` is intended to reproduce the LINGO pipeline. If your machine uses a different CUDA version, you may need to adjust the PyTorch installation accordingly.
+[NOTE!] The provided `environment.yaml` is intended to reproduce the LINGO pipeline. If your machine uses a different CUDA version, you may need to adjust the PyTorch installation accordingly.
 
+---
+
+# 📦 Data Download
+
+The released **LibKG** dataset is available on Zenodo, please download `LibKG.zip`:
+
+[LibKG on Zenodo](https://zenodo.org/records/20434093)
+
+This Zenodo release contains the **species-specific LibKG resources** used by `LINGO`, including graph node tables, edge tables, and metadata for:
+
+- **Mus musculus**
+- **Homo sapiens**
+- **Danio rerio**
+
+[!IMPORTANT] The LibKG Zenodo record contains the knowledge graph resources only. The downstream finetuning benchmark `.h5ad` files are provided separately at the [Zenodo link](https://zenodo.org/records/12176634). The [pretrained embedding](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings) files used by finetuning are already available in the GitHub repository.
+
+After downloading, unpack the archive and place the files according to the layout below.
+
+```text
+LINGO/
+├── environment.yaml
+├── merged_by_species/ (this folder is optional)
+    ├── merged_Mus_musculus.h5ad
+    ├── merged_Homo_sapiens.h5ad
+    ├── merged_Danio_rerio.h5ad
+├── pretrain_codes/
+├── finetune_codes/
+├── data/
+    ├── Weinreb_2020_Science.h5ad
+    ├── Yang_2022_Cell.h5ad
+    ├── Hu_2022_NatureGenetics.h5ad
+    ├── Hurley_2020_CellStemCell.h5ad
+```

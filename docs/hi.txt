@@ -2,21 +2,11 @@
 
 [`click here`](https://popsim-consortium.github.io/demes-docs/latest/introduction.html)
 
-## 🚀 Quick Start
 
-To reproduce the downstream benchmark experiments in the manuscript:
 
-1. Create the Conda environment from `environment.yaml`
-2. Download **LibKG** from Zenodo
-3. Download the four downstream raw `.h5ad` benchmark files
-4. Use the pretrained embeddings already provided in `finetune_codes/embeddings`
-5. Run the corresponding scripts in `finetune_codes/`
+--- 
 
-Main resource links:
-
-- [LibKG on Zenodo](https://zenodo.org/records/20434093)
-- [Downstream raw `.h5ad` files on Zenodo](https://zenodo.org/records/12176634)
-- [Pretrained embeddings in this repository](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings)
+#### put this in github readme. 
 
 ## ✨ Key Components
 
@@ -31,7 +21,6 @@ The codebase follows the same conceptual structure as the manuscript.
 - **Hi-GCL**
   a hierarchical graph contrastive learning objective
 
----
 
 ## 📁 Repository Structure
 
