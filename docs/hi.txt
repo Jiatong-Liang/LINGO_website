@@ -8,6 +8,13 @@
 
 #### put this in github readme. 
 
+## Main resource links:
+
+- [LibKG on Zenodo](https://zenodo.org/records/20434093)
+- [Downstream raw `.h5ad` files on Zenodo](https://zenodo.org/records/12176634)
+- [Pretrained embeddings in this repository](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings)
+
+
 ## ✨ Key Components
 
 The codebase follows the same conceptual structure as the manuscript.
@@ -43,110 +50,7 @@ Main folders:
 
 ---
 
-## 📦 Data Download
-
-The released **LibKG** dataset is available on Zenodo:
-
-[LibKG on Zenodo](https://zenodo.org/records/20434093)
-
-Current Zenodo content:
-
-- `LibKG.zip`
-
-This Zenodo release contains the **species-specific LibKG resources** used by LINGO, including graph node tables, edge tables, and metadata for:
-
-- **Mus musculus**
-- **Homo sapiens**
-- **Danio rerio**
-
-The raw `.h5ad` files used in the downstream finetuning benchmarks are available here:
-
-[Downstream raw `.h5ad` files on Zenodo](https://zenodo.org/records/12176634)
-
-The pretrained embedding files used by finetuning are already provided with this repository:
-
-[finetune_codes/embeddings](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings)
-
-> [!IMPORTANT]
-> The LibKG Zenodo record contains the knowledge graph resources only. The finetuning raw `.h5ad` files are provided separately at the Zenodo link above. The pretrained embedding files used by finetuning are already available in this GitHub repository.
-
-After downloading, unpack the archive and place the files according to the layout below.
-
-## 🗂️ Expected Data Layout
-
-### Pretraining data for rerunning the full pretraining pipeline
-
-The pretraining pipeline expects three merged `.h5ad` files under `merged_by_species/`:
-
-```text
-merged_by_species/
-├── merged_Mus_musculus.h5ad
-├── merged_Homo_sapiens.h5ad
-└── merged_Danio_rerio.h5ad
-```
-
-These names match the default paths in:
-
-- `pretrain_codes/config.py`
-- `finetune_codes/config.py`
-
-These merged `.h5ad` files are used when rerunning the multi-species pretraining pipeline.
-
-If you only want to run the downstream finetuning benchmarks using the provided LibKG resources and pretrained embeddings, you do **not** need these three merged species files.
-
-### Finetuning benchmark data
-
-The downstream tasks use task-specific raw `.h5ad` files. A recommended layout is:
-
-```text
-data/
-├── Weinreb_2020_Science.h5ad
-├── Yang_2022_Cell.h5ad
-├── Hu_2022_NatureGenetics.h5ad
-└── Hurley_2020_CellStemCell.h5ad
-```
-
-You do not have to use this exact directory. The finetuning scripts also support environment variables or command line paths.
-
-These task-specific raw `.h5ad` files are available at:
-
-[https://zenodo.org/records/12176634](https://zenodo.org/records/12176634)
-
-Please download the following four files:
-
-- `Hu_2022_NatureGenetics.h5ad`
-- `Hurley_2020_CellStemCell.h5ad`
-- `Weinreb_2020_Science.h5ad`
-- `Yang_2022_Cell.h5ad`
-
-### Optional: use prebuilt LibKG from Zenodo
-
-If you download `LibKG.zip` from Zenodo instead of rebuilding the graph locally, place the species-specific LibKG files under:
-
-```text
-saved_results_Mus_musculus/knowledge_graph/
-saved_results_Homo_sapiens/knowledge_graph/
-saved_results_Danio_rerio/knowledge_graph/
-```
-
-The main expected LibKG files are:
-
-```text
-knowledge_graph_nodes.csv.gz
-knowledge_graph_edges.csv.gz
-knowledge_graph_metadata.json
-```
-
-If these files are already in place, you can usually skip:
-
-- `pretrain_codes/1_download_knowledge_bases.py`
-- `pretrain_codes/2_build_knowledge_graph.py`
-
-You would still need the merged species `.h5ad` files if you want to continue with:
-
-- `pretrain_codes/0_data_inspection.py`
-- `pretrain_codes/3_precompute_features.py`
-- `pretrain_codes/5_pretrain.py`
+######
 
 ---
 

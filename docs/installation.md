@@ -1,4 +1,4 @@
-# 🚀 Quick Start
+# 🚀 Quickstart
 
 To reproduce the downstream benchmark experiments described in the manuscript:
 
@@ -7,12 +7,6 @@ To reproduce the downstream benchmark experiments described in the manuscript:
 3. Download the four downstream raw `.h5ad` benchmark files
 4. Use the pretrained embeddings already provided in `finetune_codes/embeddings`
 5. Run the corresponding scripts in `finetune_codes/`. Please see the examples. 
-
-## Main resource links:
-
-- [LibKG on Zenodo](https://zenodo.org/records/20434093)
-- [Downstream raw `.h5ad` files on Zenodo](https://zenodo.org/records/12176634)
-- [Pretrained embeddings in this repository](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings)
 
 ---
 # Installation
@@ -63,6 +57,18 @@ This Zenodo release contains the **species-specific LibKG resources** used by `L
 - **Homo sapiens**
 - **Danio rerio**
 
+
+These task-specific raw `.h5ad` files are available at:
+
+[https://zenodo.org/records/12176634](https://zenodo.org/records/12176634)
+
+Please download the following four files:
+
+- `Hu_2022_NatureGenetics.h5ad`
+- `Hurley_2020_CellStemCell.h5ad`
+- `Weinreb_2020_Science.h5ad`
+- `Yang_2022_Cell.h5ad`
+
 [!IMPORTANT] The LibKG Zenodo record contains the knowledge graph resources only. The downstream finetuning benchmark `.h5ad` files are provided separately at the [Zenodo link](https://zenodo.org/records/12176634). The [pretrained embedding](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings) files used by finetuning are already available in the GitHub repository.
 
 After downloading, unpack the archive and place the files according to the layout below.
@@ -82,3 +88,5 @@ LINGO/
     ├── Hu_2022_NatureGenetics.h5ad
     ├── Hurley_2020_CellStemCell.h5ad
 ```
+
+[Note!] The pretraining pipeline expects three merged `.h5ad` files under `merged_by_species/` but this folder is **optional**. You can continue without this folder if you do not want to train the model from scratch.  
