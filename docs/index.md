@@ -26,16 +26,17 @@ LINGO is described as:
   - **human cell line clone plasticity** from Hurley 2020
   - **zebrafish heart lineage origin prediction** from Hu 2022
 
-LINGO supports three core downstream tasks discussed in the manuscript:
+LINGO supports three core downstream tasks:
 
 - **cell linkage prediction**
 - **lineage origin prediction**
 - **clonal plasticity prediction**
 
+To get started, please refer to [`Installation/Quickstart`](installation.md).
 
-## Content
 ```{toctree}
+:hidden:
 :maxdepth: 4
 
-Key concepts <notation>
+Installation/Quickstart <installation>
 ```

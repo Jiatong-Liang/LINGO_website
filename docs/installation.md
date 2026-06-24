@@ -1,35 +1,35 @@
 # Installation
 
-We recommend using a virtual environment to manage dependencies for `demestats`. This
+Start by cloning the github:
+
+```bash
+git clone git@github.com:Young0222/LINGO.git
+```
+
+We recommend using a virtual environment to manage dependencies for `LINGO`. This
 helps avoid conflicts with other Python packages and ensures a clean installation.
 
 Using `venv`:
 
 ```bash
-python -m venv demestats-env
-source demestats-env/bin/activate  # On Windows use `demestats-env\Scripts\activate`
+python -m venv lingo-env
+source lingo-env/bin/activate 
+pip install LINGO_requirements.txt
 ```
 
 Using `conda`:
 
 ```bash
-conda create -n demestats-env
-conda activate demestats-env
+conda env create -f environment.yaml
+conda activate lingo-pretrain
 ```
 
-Install from GitHub (example):
+For a sanity check:
 
 ```bash
-pip install git+https://github.com/jthlab/momi3.git@iicr
+python -c "import torch, scanpy, torch_geometric; print('Environment is ready')"
 ```
 
-Requirements
-------------
+> [!NOTE]
+> The provided `environment.yaml` is intended to reproduce the LINGO pipeline. If your machine uses a different CUDA version, you may need to adjust the PyTorch installation accordingly.
 
-Before getting started, ensure your environment includes:
-
-- Python ≥ 3.11
-- Core scientific stack: `numpy`, `scipy`, `jax`, `jaxlib`
-- Demography tooling: `demes`, `msprime`, `demesdraw`
-
-For a full dependency list, see `pyproject.toml`.
