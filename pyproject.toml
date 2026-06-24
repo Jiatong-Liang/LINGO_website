@@ -1,5 +1,5 @@
 [project]
-name = "LINGO"
+name = "lingo"
 version = "0.1.0"
 description = "LINGO Website"
 readme = "README.rst"
@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-  "numpy",
+  "numpy<2.2",
 ]
 
 [build-system]
