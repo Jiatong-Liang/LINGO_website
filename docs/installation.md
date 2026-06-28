@@ -7,8 +7,8 @@ To reproduce the downstream benchmark experiments described in the manuscript:
 1. Create the Conda environment from `environment.yaml`
 2. Download **LibKG** from Zenodo
 3. Download the four downstream raw `.h5ad` benchmark files
-4. Use the pretrained embeddings already provided in `finetune_codes/embeddings`
-5. Run the corresponding scripts in `finetune_codes/`. Please see the examples. 
+4. Use the pretrained embeddings already provided in `LINGO/finetune_codes/embeddings`
+5. Run the corresponding scripts in `LINGO/finetune_codes/`. Please see the examples. 
 
 ---
 ## Installation
@@ -19,8 +19,7 @@ Start by cloning the github:
 git clone git@github.com:Young0222/LINGO.git
 ```
 
-We recommend using a virtual environment to manage dependencies for `LINGO`. This
-helps avoid conflicts with other Python packages and ensures a clean installation.
+Please use virtual environment to manage dependencies for `LINGO` to avoid conflicts with other Python packages. 
 
 Using `venv`:
 
