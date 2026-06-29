@@ -23,7 +23,7 @@ to get comparisons of day 2 vs day 4, day 4 vs day 6, and day 2 vs day 6, etc.
 ## Interpreting the outputs
 The `run_experiment3` code will take a portion of the Weinreb 2020 dataset and split in into train, validation, and test datasets to create the model. After creating the model, 100,000 cell pairings will be randomly taken and be used to predict cross-timepoint linkage. 
 
-After running the code, within the `output_path` folder you should see the `experiment_3_finetuned_improved` folder which contains `day2_day4_pair_predictions_for_analysis.csv`. For the user, all other files can be ignored as they are used mostly for debugging and reproducibility. Within the csv file, the columns `label` and `pred_label_best_f1` are the true and predicted cross-timepoint linkage results.The code also reports the AUC and AUPRC.
+After running the code, within the `output_path` folder you should see the `experiment_3_finetuned_improved` folder which contains `day2_day4_pair_predictions_for_analysis.csv`. Within the csv file, the columns `label` and `pred_label_best_f1` are the true and predicted cross-timepoint linkage results.The code also reports the AUC and AUPRC.
 
 
 ## Reproducing manuscript figures
