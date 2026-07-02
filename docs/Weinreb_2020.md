@@ -8,7 +8,7 @@ The example will walk through the **Cross-timepoint linkage prediction task,** w
 
 ## Data Preprocessing
 
-The first thing to do is to check whether your dataset has been merged or altered to include other sources. Since we are only interested in Weinreb, we filter the dataset to only include Weinreb 2020.
+The first thing to do is to verify whether your dataset has been merged with or modified by other sources. Since our analysis focuses exclusively on Weinreb 2020, we subset the data to retain only samples from that study.
 
 ```python
 import scanpy as sc
@@ -21,7 +21,7 @@ if 'dataset' in adata.obs.columns:
         adata = adata[weinreb_mask].copy()
         print(f"  Filtered by dataset=Weinreb_2020: {adata.n_obs:,} cells")
 ```
-[!Note]  If your dataset does not have a `dataset` column or any concerns of being a merged dataset, then you can ignore this first step.
+[!Note] If your `adata` object does not contain the `dataset` column or if you are certain you are not working with a merged dataset, you may skip this step.
 
 The second thing is to identify the column name that contains the barcodes.
 
@@ -55,7 +55,7 @@ print(f"  Using time column: {time_col}")
 # To inspect the times, run the following: adata.obs[time_col]
 ```
 
-[!Note] We provided a list of common column names for the barcodes in `barcode_candidates` and time in `time_candidates` to search for. If those common names are not found, the user should manually go through the dataset to identify the correct barcode/clone and time column name. 
+[!Note] We provided a list of common column names for barcodes in `barcode_candidates` and timepoints in `time_candidates` to search for. If those common names are not found, the user should manually go through their dataset to identify the correct barcode/clone and timepoint column name. 
 
 The third thing to do is to identify the timepoints of interest. To view all timepoints available please run the following:
 
@@ -74,7 +74,7 @@ print(f"All parsed timepoints: {all_timepoints}")
 selected_pairs = [(2.0, 4.0)]
 ```
 
-The user needs to select which pair of time points to use. For example, if one wants to do cross-timepoint linkage prediction of day 2 vs day 4 see `selected_pairs` defined above. If one wants to do within-timepoint linkage prediction, then one can set `selected_pairs = [(2.0, 2.0)]` to indicate that only day 2 will be considered.
+The user needs to select which pair of time points to use. For example, if one wants to do *cross-timepoint* linkage prediction of day 2 vs day 4 see `selected_pairs` defined above. If one wants to do *within-timepoint* linkage prediction, then one can set `selected_pairs = [(2.0, 2.0)]` to indicate that only day 2 will be considered.
 
 The fourth thing to do is to filter the data to remove any missing barcodes.
 
@@ -93,12 +93,12 @@ print(f"Filtered data size: {filtered_adata.shape}")
 # In our example, there are no invalid tokens so we are all set
 ```
 
-[!Note] We provided a list of common names for missing barcodes in `INVALID_CLONE_TOKENS`. For different datasets, the user needs to check for possibly different tokens. 
+[!Note] We provided a list of common tokens for missing barcodes in `INVALID_CLONE_TOKENS`. For different datasets, the user needs to check for possible differently defined tokens. 
 
 (Optional) The user may additionally filter for different criterias, for example in the [Yang Example](Yang_2022.md) we will filter for only tumor cells and ignore all other cells. 
 
 ## Model Hyperparameters
-Here we provide model hyperparameters that the user can consider. We do not suggest you to change any hyperparameter.
+Here we provide model hyperparameters that the user can consider. We do not suggest changing any hyperparameter unless the user has familiarity with model.
 
 ```python
 from config import Config
@@ -147,7 +147,7 @@ def build_experiment_hparams():
 hparams = build_experiment_hparams()
 ```
 
-## Running Linkage Predictions
+## Running LINGO for Linkage Predictions
 
 After preprocessing the data, we are ready to obtain linkage predictions.
 
@@ -155,7 +155,6 @@ After preprocessing the data, we are ready to obtain linkage predictions.
 # All of these folder paths were set inside the LINGO folder
 embedding_path = '/home/User/LINGO/finetune_codes/embeddings/saved_results_Mus_musculus/embeddings/kg_gene_embedding_matrix.pt'
 gene_to_idx_path = '/home/User/LINGO/finetune_codes/embeddings/saved_results_Mus_musculus/embeddings/gene_to_idx.pkl'
-data_path = '/home/User/LINGO/data/Weinreb_2020_Science.h5ad'
 output_path = '/home/User/LINGO/weinreb_output_folder'
 selected_pairs = [(2.0, 4.0)]
 model = "finetuned_model"
@@ -170,15 +169,30 @@ linkage_prediction(output_path, embedding_path, gene_to_idx_path, filtered_adata
                barcode_col, time_col, selected_pairs, hparams, model)
 
 ```
-The inputs required are the `output_path` where you wish to store the outputs, `embedding_path` where the pretrained embeddings are stored, `gene_to_idx_path` are the gene alignments, `filtered_adata` is the preprocessed data, `barcode_col` is the column name that contains the barcodes, `time_col` is the column name that contains the timepoints, `selected_pairs` are the two time points you wish to use (e.g. day 2 vs day 4). `hparams` are the hyperparameters, and `model` is the 3 possible models you can select from.  
+The inputs required are the `output_path` where you wish to store the outputs, `embedding_path` where the pretrained embeddings are stored, `gene_to_idx_path` is the path to the gene alignments, `filtered_adata` is the preprocessed data, `barcode_col` is the column name that contains the barcodes, `time_col` is the column name that contains the timepoints, `selected_pairs` are the two time points you wish to use (e.g. day 2 vs day 4). `hparams` are the hyperparameters, and `model` is the 3 possible models you can select from.  
 
-[!Note] To do *Within-timepoint linkage predictions, one can specify the same day twice, e.g. `selected_pairs = [(4.0, 4.0)]` to represent that you only care about predictions within day 4. 
-
+[!Note] To do *Within-timepoint linkage predictions*, please see the [Yang example](Yang_2022.md). One can specify the same day twice, e.g. `selected_pairs = [(4.0, 4.0)]` to represent that you only care about within-timepoint predictions for day 4. 
 
 ## Interpreting the outputs
-The `run_experiment3` code will take a portion of the Weinreb 2020 dataset and split in into train, validation, and test datasets to create the model. After creating the model, 100,000 cell pairings will be randomly taken and be used to predict cross-timepoint linkage. 
+The linkage_prediction function begins by splitting a subset of the Weinreb 2020 dataset into training, validation, and test sets for model development. Once the model is trained, it randomly samples 100,000 unseen cell pairs and predicts cross-timepoint linkages, reporting both AUROC and AUPRC as performance metrics.
 
-After running the code, within the `output_path` folder you should see the `experiment_3_finetuned_improved` folder which contains `day2_day4_pair_predictions_for_analysis.csv`. Within the csv file, the columns `label` and `pred_label_best_f1` are the true and predicted cross-timepoint linkage results.The code also reports the AUC and AUPRC.
+After the script completes, the output_path folder will contain the following files:
+
+- `*_shared_pairs_cache.pkl` — caches the train/validation/test splits. This allows you to rerun the code with the same random seed without recomputing the splits from scratch.
+- `*_ablation_study_results.json` — includes a finetuned_model field that stores the final AUROC and AUPRC for the 100,000 cell pairs, under the keys `shared_test_auc` and `shared_test_auprc`.
+- finetuned_model_results/ — a subfolder containing:
+    - evaluation_metrics — model performance during training,
+    - finetuned_gene_embedding — the learned gene embeddings,
+    - finetuned_model_checkpoint — the saved model weights,
+    - pair_predictions_for_analysis.csv — a CSV with `label` (true linkage) and `pred_label_best_f1` (predicted linkage) columns.
+
+For most users, the most critical outputs are:
+
+- The final AUROC and AUPRC values, which indicate how well the model fits the data. 
+- The pair_predictions_for_analysis.csv file, which provides the predicted cross-timepoint linkages needed for downstream analyses. The columns `label` and `pred_label_best_f1`, which are the true and predicted cross-timepoint linkage results, will be used for downstream analysis. 
+
+## Downstream Analysis
+
 
 
 ## Reproducing manuscript figures
