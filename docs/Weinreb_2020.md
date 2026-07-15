@@ -23,7 +23,7 @@ if 'dataset' in adata.obs.columns:
 ```
 [!Note] If your `adata` object does not contain the `dataset` column or if you are certain you are not working with a merged dataset, you may skip this step.
 
-The second thing is to identify the column name that contains the barcodes.
+The second thing is to identify the column name that contains the barcodes and timepoints.
 
 ```python
 # The lineage task must use real barcode/clone fields and forgery is prohibited.
@@ -60,7 +60,7 @@ print(f"  Using time column: {time_col}")
 The third thing to do is to identify the timepoints of interest. To view all timepoints available please run the following:
 
 ```python
-from lineage_reconstruction_Weinreb_2020 import (
+from utilities_linkage_prediction import (
     _parse_timepoint_value, 
 )
 
@@ -101,8 +101,6 @@ print(f"Filtered data size: {filtered_adata.shape}")
 Here we provide model hyperparameters that the user can consider. We do not suggest changing any hyperparameter unless the user has familiarity with model.
 
 ```python
-from config import Config
-
 from config import Config
 
 def build_experiment_hparams():
@@ -164,7 +162,7 @@ The manuscript discusses many variations of the LINGO model, but we recommend us
 
 Run the following:
 ```python
-from utilities import linkage_prediction
+from utilities_linkage_prediction import linkage_prediction
 linkage_prediction(output_path, embedding_path, gene_to_idx_path, filtered_adata,
                barcode_col, time_col, selected_pairs, hparams, model)
 
@@ -174,9 +172,9 @@ The inputs required are the `output_path` where you wish to store the outputs, `
 [!Note] To do *Within-timepoint linkage predictions*, please see the [Yang example](Yang_2022.md). One can specify the same day twice, e.g. `selected_pairs = [(4.0, 4.0)]` to represent that you only care about within-timepoint predictions for day 4. 
 
 ## Interpreting the outputs
-The linkage_prediction function begins by splitting a subset of the Weinreb 2020 dataset into training, validation, and test sets for model development. Once the model is trained, it randomly samples 100,000 unseen cell pairs and predicts cross-timepoint linkages, reporting both AUROC and AUPRC as performance metrics.
+The `linkage_prediction` function begins by splitting a subset of the Weinreb 2020 dataset into training, validation, and test sets for model development. Once the model is trained, it randomly samples 100,000 unseen cell pairs and predicts cross-timepoint linkages, reporting both AUROC and AUPRC as performance metrics.
 
-After the script completes, the output_path folder will contain the following files:
+After the script completes, the `output_path` folder will contain the following files:
 
 - `*_shared_pairs_cache.pkl` — caches the train/validation/test splits. This allows you to rerun the code with the same random seed without recomputing the splits from scratch.
 - `*_ablation_study_results.json` — includes a finetuned_model field that stores the final AUROC and AUPRC for the 100,000 cell pairs, under the keys `shared_test_auc` and `shared_test_auprc`.
@@ -194,23 +192,14 @@ For most users, the most critical outputs are:
 ## Downstream Analysis
 
 
-
 ## Reproducing manuscript figures
 
-From a user's perspective the `run_experiment3` function is all you need to know, but if you wish to reproduce to reproduce the figure and downstream benchmark results reported in the manuscript, run the following code from the repository root (LINGO folder) in your terminal:
+From a user's perspective the `linkage_prediction` function is all you need to know, but if you wish to reproduce the figure and downstream benchmark results reported in the manuscript, run the Jupyter notebook code in the folder `LINGO/reproduce_codes/Weinreb_2020.ipynb`.
 
-Set the raw data path:
-```bash
-export LINEAGE_WEINREB_PATH=/absolute/path/to/Weinreb_2020_Science.h5ad
-```
-
-Run:
-```bash
-python finetune_codes/10_lineage_reconstruction_Weinreb_2020.py
-```
-
-This script:
+This code in the nodebook:
 - activates Mus musculus
 - loads pretrained mouse embeddings
 - reconstructs cross-timepoint lineage relationships
 - writes stage-wise results to the mouse output directory
+
+The output will be stored in `LINGO/reproduce_outputs/weinreb_output`

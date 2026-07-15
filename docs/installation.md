@@ -77,10 +77,12 @@ After downloading, unpack the archive and place the files according to the layou
 ```text
 LINGO/
 ├── environment.yaml
+├── requirements.txt
 ├── merged_by_species/ (this folder is optional)
     ├── merged_Mus_musculus.h5ad
     ├── merged_Homo_sapiens.h5ad
     ├── merged_Danio_rerio.h5ad
+├── reproduce_codes/
 ├── pretrain_codes/
 ├── finetune_codes/
 ├── data/
