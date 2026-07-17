@@ -1,6 +1,6 @@
 # Weinreb
 
-The [*Weinreb 2020* dataset](installation.md) tracks mouse hematopoiesis, which is the process in which blood stem cells differentiate into mature blood cells. This tutorial walks through the results of the Weinreb 2020 dataset discussed in the manuscript. 
+The [*Weinreb 2020* dataset](installation.md) tracks mouse hematopoiesis, which is the process in which blood stem cells differentiate into mature blood cells. This tutorial's code can be found at `LINGO/tutorial/weinreb_tutorial.ipynb` and it walks through the results of the Weinreb 2020 dataset discussed in the manuscript. 
 
 To see more details regarding the experiment and features of the dataset, please refer to: _Ghosn, E., Yoshimoto, M., Nakauchi, H., Weissman, I. L., & Herzenberg, L. A. (2019). Hematopoietic stem cell-independent hematopoiesis and the origins of innate-like B lymphocytes. Development, 146(15), dev170571._
 
@@ -74,7 +74,7 @@ print(f"All parsed timepoints: {all_timepoints}")
 selected_pairs = [(2.0, 4.0)]
 ```
 
-The user needs to select which pair of time points to use. For example, if one wants to do *cross-timepoint* linkage prediction of day 2 vs day 4 see `selected_pairs` defined above. If one wants to do *within-timepoint* linkage prediction, then one can set `selected_pairs = [(2.0, 2.0)]` to indicate that only day 2 will be considered.
+The user needs to select which pair of time points to use. For example, if one is interested in **cross-timepoint** linkage prediction of day 2 vs day 4, see `selected_pairs` defined above. If one is interested in **within-timepoint** linkage prediction, then one can set `selected_pairs = [(2.0, 2.0)]` to indicate that only day 2 will be considered.
 
 The fourth thing to do is to filter the data to remove any missing barcodes.
 
@@ -158,7 +158,7 @@ selected_pairs = [(2.0, 4.0)]
 model = "finetuned_model"
 ```
 
-The manuscript discusses many variations of the LINGO model, but we recommend users to the *KG Trainable Embedding* instead of the *KG Scratch* and *KG Frozen*.
+The manuscript discusses many variations of the LINGO model, but we recommend users to the *KG Trainable Embedding* ("finetuned_model") instead of the *KG Scratch* and *KG Frozen*.
 
 Run the following:
 ```python
@@ -167,7 +167,7 @@ linkage_prediction(output_path, embedding_path, gene_to_idx_path, filtered_adata
                barcode_col, time_col, selected_pairs, hparams, model)
 
 ```
-The inputs required are the `output_path` where you wish to store the outputs, `embedding_path` where the pretrained embeddings are stored, `gene_to_idx_path` is the path to the gene alignments, `filtered_adata` is the preprocessed data, `barcode_col` is the column name that contains the barcodes, `time_col` is the column name that contains the timepoints, `selected_pairs` are the two time points you wish to use (e.g. day 2 vs day 4). `hparams` are the hyperparameters, and `model` is the 3 possible models you can select from.  
+The inputs required are the `output_path` where you wish to store the outputs, `embedding_path` where the pretrained embeddings are stored, `gene_to_idx_path` is the path to the gene alignments, `filtered_adata` is the preprocessed data, `barcode_col` is the column name that contains the barcodes, `time_col` is the column name that contains the timepoints, `selected_pairs` are the two time points you wish to use (e.g. day 2 vs day 4), `hparams` are the hyperparameters, and `model` is the 3 possible models you can select from.  
 
 [!Note] To do *Within-timepoint linkage predictions*, please see the [Yang example](Yang_2022.md). One can specify the same day twice, e.g. `selected_pairs = [(4.0, 4.0)]` to represent that you only care about within-timepoint predictions for day 4. 
 
@@ -177,7 +177,7 @@ The `linkage_prediction` function begins by splitting a subset of the Weinreb 20
 After the script completes, the `output_path` folder will contain the following files:
 
 - `*_shared_pairs_cache.pkl` — caches the train/validation/test splits. This allows you to rerun the code with the same random seed without recomputing the splits from scratch.
-- `*_ablation_study_results.json` — includes a finetuned_model field that stores the final AUROC and AUPRC for the 100,000 cell pairs, under the keys `shared_test_auc` and `shared_test_auprc`.
+- `*_ablation_study_results.json` — a dictionary object includes a `finetuned_model` field that stores the final AUROC and AUPRC for the 100,000 cell pairs, under the keys `shared_test_auc` and `shared_test_auprc`.
 - finetuned_model_results/ — a subfolder containing:
     - evaluation_metrics — model performance during training,
     - finetuned_gene_embedding — the learned gene embeddings,
@@ -190,6 +190,7 @@ For most users, the most critical outputs are:
 - The pair_predictions_for_analysis.csv file, which provides the predicted cross-timepoint linkages needed for downstream analyses. The columns `label` and `pred_label_best_f1`, which are the true and predicted cross-timepoint linkage results, will be used for downstream analysis. 
 
 ## Downstream Analysis
+
 To be completed.
 
 ## Reproducing manuscript figures

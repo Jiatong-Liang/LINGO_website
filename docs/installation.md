@@ -69,10 +69,11 @@ Please download the following four files:
 - `Weinreb_2020_Science.h5ad`
 - `Yang_2022_Cell.h5ad`
 
-In addition, please download this data file from the following [https://zenodo.org/records/14002044](https://zenodo.org/records/14002044):
+(Optional) If you are interested in reproducing figure 6 in the manuscript, where we apply a human-pretrained LINGO model on various datasets, please download this data file from the following [https://zenodo.org/records/14002044](https://zenodo.org/records/14002044):
+
 - MECOM_KO.seurat.rds
 
-[!IMPORTANT] The LibKG Zenodo record contains the knowledge graph resources only. The downstream finetuning benchmark `.h5ad` files are provided separately at the [Zenodo link](https://zenodo.org/records/12176634). The [pretrained embedding](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings) files used by finetuning are already available in the GitHub repository.
+[!IMPORTANT] The LibKG Zenodo record contains the knowledge graph resources only. The downstream finetuning benchmark `.h5ad` files are provided separately at the [Zenodo link](https://zenodo.org/records/12176634). The [pretrained embedding](https://github.com/Young0222/LINGO/tree/main/finetune_codes/embeddings) files used by finetuning are already available in the GitHub repository. 
 
 After downloading, unpack the archive and place the files according to the layout below.
 
@@ -92,7 +93,7 @@ LINGO/
     ├── Yang_2022_Cell.h5ad
     ├── Hu_2022_NatureGenetics.h5ad
     ├── Hurley_2020_CellStemCell.h5ad
-    ├── MECOM_KO.seurat.rds
+    ├── MECOM_KO.seurat.rds (this file is optional)
 ```
 
 [Note!] The pretraining pipeline expects three merged `.h5ad` files under `merged_by_species/` but this folder is **optional**. You can continue without this folder if you do not want to train the model from scratch.  
