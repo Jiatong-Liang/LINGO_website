@@ -1,6 +1,6 @@
 # Hurley
 
-The [*Hurley 2020* dataset](installation.md) profiles cells from zebrafish hearts at multiple time points.
+The [*Hurley 2020* dataset](installation.md) track the differentiation of human pluripotent stem cells (PSCs) into distal lung progenitor cells. 
 
 To see more details regarding the experiment and features of the dataset, please refer to: _Hurley, K., Ding, J., Villacorta-Martin, C., Herriges, M. J., Jacob, A., Vedaie, M., ... & Kotton, D. N. (2020). Reconstructed single-cell fate trajectories define lineage plasticity windows during differentiation of human PSC-derived distal lung progenitors. Cell stem cell, 26(4), 593-608._
 

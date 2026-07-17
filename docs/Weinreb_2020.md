@@ -190,7 +190,7 @@ For most users, the most critical outputs are:
 - The pair_predictions_for_analysis.csv file, which provides the predicted cross-timepoint linkages needed for downstream analyses. The columns `label` and `pred_label_best_f1`, which are the true and predicted cross-timepoint linkage results, will be used for downstream analysis. 
 
 ## Downstream Analysis
-
+To be completed.
 
 ## Reproducing manuscript figures
 
